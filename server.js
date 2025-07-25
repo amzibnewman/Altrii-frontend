@@ -4,19 +4,25 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files with correct MIME types
-app.use(express.static('.', {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.html')) {
-      res.setHeader('Content-Type', 'text/html');
+// Explicitly serve index.html for root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'), {
+    headers: {
+      'Content-Type': 'text/html; charset=UTF-8'
     }
-  }
-}));
+  });
+});
 
-// Handle client-side routing - send all requests to index.html
+// Serve any other static files
+app.use(express.static(__dirname));
+
+// Handle all other routes (for React Router)
 app.get('*', (req, res) => {
-  res.setHeader('Content-Type', 'text/html');
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'), {
+    headers: {
+      'Content-Type': 'text/html; charset=UTF-8'
+    }
+  });
 });
 
 app.listen(PORT, () => {
