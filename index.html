@@ -1,668 +1,651 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Altrii Recovery - Digital Wellness Platform</title>
+    
+    <!-- React and other libraries -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6/dist/umd/react-router-dom.production.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .animate-spin { animation: spin 1s linear infinite; }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;Altrii Recovery - Digital Wellness Platform&lt;/title&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- React and other libraries --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react-router-dom@6/dist/umd/react-router-dom.production.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/axios/dist/axios.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body { font-family: 'Inter', sans-serif; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.animate-spin { animation: spin 1s linear infinite; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.animate-fade-in { animation: fadeIn 0.5s ease-in-out; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Configuration - Point to your deployed backend</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const API_BASE_URL = 'https://api.altriirecovery.com/api';</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const { useState, useEffect, useContext, createContext } = React;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const { BrowserRouter, Routes, Route, Link, Navigate, useNavigate, useLocation } = window.ReactRouterDOM;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Configure axios defaults</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>axios.defaults.baseURL = API_BASE_URL;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Simple Icon Components (replacing Lucide)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const Icons = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>Shield: () =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"&gt;&lt;/path&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/svg&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>Clock: () =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;circle cx="12" cy="12" r="10"&gt;&lt;/circle&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;polyline points="12 6 12 12 16 14"&gt;&lt;/polyline&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/svg&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>User: () =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"&gt;&lt;/path&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;circle cx="12" cy="7" r="4"&gt;&lt;/circle&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/svg&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Auth Context</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const AuthContext = createContext();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const AuthProvider = ({ children }) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [user, setUser] = useState(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [subscription, setSubscription] = useState(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [loading, setLoading] = useState(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const navigate = useNavigate();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>useEffect(() =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const token = localStorage.getItem('token');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (token) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>fetchUser();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setLoading(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}, []);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const fetchUser = async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const response = await axios.get('/auth/me');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setUser(response.data.user);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setSubscription(response.data.subscription);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} catch (error) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>localStorage.removeItem('token');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>delete axios.defaults.headers.common['Authorization'];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} finally {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setLoading(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const login = async (email, password) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const response = await axios.post('/auth/login', { email, password });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const { token, user } = response.data;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>localStorage.setItem('token', token);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setUser(user);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>await fetchUser();</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>return { success: true };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} catch (error) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>return { success: false, error: error.response?.data?.error || 'Login failed' };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const register = async (userData) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const response = await axios.post('/auth/register', userData);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const { token, user } = response.data;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>localStorage.setItem('token', token);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setUser(user);</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>return { success: true };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} catch (error) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>return { success: false, error: error.response?.data?.error || 'Registration failed' };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const logout = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>localStorage.removeItem('token');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>delete axios.defaults.headers.common['Authorization'];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setUser(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setSubscription(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>navigate('/');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;AuthContext.Provider value={{ user, subscription, loading, login, register, logout, fetchUser }}&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{children}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/AuthContext.Provider&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const useAuth = () =&gt; useContext(AuthContext);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Notification Context</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const NotificationContext = createContext();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const NotificationProvider = ({ children }) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [notifications, setNotifications] = useState([]);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const addNotification = (message, type = 'info') =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const id = Date.now();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setNotifications(prev =&gt; [...prev, { id, message, type }]);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setNotifications(prev =&gt; prev.filter(n =&gt; n.id !== id));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}, 5000);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;NotificationContext.Provider value={{ addNotification }}&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{children}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="fixed top-4 right-4 z-50 space-y-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{notifications.map(({ id, message, type }) =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>key={id}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>className={`p-4 rounded-lg shadow-lg transform transition-all duration-300 animate-fade-in ${</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>type === 'success' ? 'bg-green-500 text-white' :</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>type === 'error' ? 'bg-red-500 text-white' :</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>type === 'warning' ? 'bg-amber-500 text-white' :</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>'bg-blue-500 text-white'</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>}`}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{message}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>))}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/NotificationContext.Provider&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const useNotification = () =&gt; useContext(NotificationContext);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Protected Route Component</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ProtectedRoute = ({ children }) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const { user, loading } = useAuth();</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (loading) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="min-h-screen flex items-center justify-center"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return user ? children : &lt;Navigate to="/login" /&gt;;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Landing Page Component</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const LandingPage = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const { user } = useAuth();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const navigate = useNavigate();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>useEffect(() =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (user) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>navigate('/dashboard');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}, [user, navigate]);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen bg-white"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{/* Header */}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;header className="relative overflow-hidden"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="gradient-bg"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="text-center"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h1 className="text-4xl md:text-6xl font-bold text-white mb-6"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>Altrii Recovery</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;p className="text-xl md:text-2xl text-white opacity-90 mb-8 max-w-3xl mx-auto"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>Take control of your digital wellness. Protect yourself from unwanted content with smart device management that cannot be easily bypassed.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-x-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;Link</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>to="/register"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>Start Free Trial</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/Link&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;Link</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>to="/login"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>className="inline-flex items-center px-8 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-blue-600 transition-colors"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>Sign In</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/Link&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/header&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{/* Features */}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;section className="py-20 bg-gray-50"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="text-center mb-16"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>Why Choose Altrii Recovery?</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;p className="text-xl text-gray-600 max-w-2xl mx-auto"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>Our comprehensive digital wellness platform helps you build healthier relationships with technology.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="grid grid-cols-1 md:grid-cols-3 gap-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="text-center p-6 bg-white rounded-lg shadow-sm"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="w-12 h-12 text-blue-600 mx-auto mb-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;Icons.Shield /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="text-xl font-semibold text-gray-900 mb-2"&gt;Unhackable Protection&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;p className="text-gray-600"&gt;Factory reset prevention and auto-reenrollment ensure your protection cannot be easily bypassed.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                                </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="text-center p-6 bg-white rounded-lg shadow-sm"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="w-12 h-12 text-blue-600 mx-auto mb-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;Icons.Clock /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="text-xl font-semibold text-gray-900 mb-2"&gt;Timer Commitments&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;p className="text-gray-600"&gt;Set commitment periods that prevent impulsive changes to your protection settings.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                                </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="text-center p-6 bg-white rounded-lg shadow-sm"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="w-12 h-12 text-blue-600 mx-auto mb-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;Icons.User /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="text-xl font-semibold text-gray-900 mb-2"&gt;Self-Directed&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;p className="text-gray-600"&gt;No accountability partners required. Take control of your digital wellness privately.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{/* CTA */}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;section className="py-20 bg-blue-600"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h2 className="text-3xl md:text-4xl font-bold text-white mb-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>Ready to Start Your Journey?</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>Join users who have taken control of their digital wellness with Altrii Recovery.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;Link</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>to="/register"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>Get Started Free</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/Link&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{/* Footer */}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;footer className="bg-gray-800 text-white py-12"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="text-center"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h3 className="text-2xl font-bold mb-4"&gt;Altrii Recovery&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;p className="text-gray-400 mb-4"&gt;Digital wellness for a healthier tomorrow&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="space-x-6"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;a href="#" className="text-gray-400 hover:text-white"&gt;Privacy&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;a href="#" className="text-gray-400 hover:text-white"&gt;Terms&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;a href="#" className="text-gray-400 hover:text-white"&gt;Support&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/footer&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Login Component</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const Login = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [email, setEmail] = useState('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [password, setPassword] = useState('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [loading, setLoading] = useState(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [error, setError] = useState('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const { login } = useAuth();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const navigate = useNavigate();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const { addNotification } = useNotification();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleSubmit = async (e) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>e.preventDefault();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setLoading(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setError('');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const result = await login(email, password);</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (result.success) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>addNotification('Welcome back!', 'success');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>navigate('/dashboard');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setError(result.error);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setLoading(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="max-w-md w-full space-y-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="text-center mb-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;Link to="/" className="text-2xl font-bold text-blue-600"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>Altrii Recovery</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/Link&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>Sign in to your account</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p className="mt-2 text-center text-sm text-gray-600"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>Or{' '}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;Link to="/register" className="font-medium text-blue-600 hover:text-blue-500"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>create a new account</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/Link&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;form className="mt-8 space-y-6" onSubmit={handleSubmit}&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{error &amp;&amp; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="rounded-md bg-red-50 p-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="text-sm text-red-800"&gt;{error}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="rounded-md shadow-sm -space-y-px"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>id="email"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>name="email"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>type="email"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>autoComplete="email"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>required</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>value={email}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setEmail(e.target.value)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>placeholder="Email address"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>id="password"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>name="password"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>type="password"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>autoComplete="current-password"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>required</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>value={password}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setPassword(e.target.value)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>placeholder="Password"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>type="submit"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>disabled={loading}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{loading ? 'Signing in...' : 'Sign in'}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/form&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Register Component</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const Register = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [formData, setFormData] = useState({</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>firstName: '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>lastName: '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>email: '',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>password: ''</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [loading, setLoading] = useState(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [error, setError] = useState('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const { register } = useAuth();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const navigate = useNavigate();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const { addNotification } = useNotification();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleChange = (e) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setFormData({ ...formData, [e.target.name]: e.target.value });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleSubmit = async (e) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>e.preventDefault();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setLoading(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setError('');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const result = await register(formData);</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (result.success) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>addNotification('Account created successfully!', 'success');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>navigate('/dashboard');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setError(result.error);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setLoading(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="max-w-md w-full space-y-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="text-center mb-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;Link to="/" className="text-2xl font-bold text-blue-600"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>Altrii Recovery</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/Link&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>Create your account</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p className="mt-2 text-center text-sm text-gray-600"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>Or{' '}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;Link to="/login" className="font-medium text-blue-600 hover:text-blue-500"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>sign in to your existing account</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/Link&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;form className="mt-8 space-y-6" onSubmit={handleSubmit}&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{error &amp;&amp; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="rounded-md bg-red-50 p-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="text-sm text-red-800"&gt;{error}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="space-y-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="grid grid-cols-2 gap-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>name="firstName"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>type="text"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>required</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>value={formData.firstName}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>onChange={handleChange}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>placeholder="First name"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>name="lastName"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>type="text"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>required</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>value={formData.lastName}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>onChange={handleChange}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>placeholder="Last name"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;input</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>name="email"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>type="email"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>required</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>value={formData.email}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>onChange={handleChange}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>placeholder="Email address"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;input</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>name="password"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>type="password"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>required</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>value={formData.password}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>onChange={handleChange}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>placeholder="Password (8+ characters)"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;button</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>type="submit"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>disabled={loading}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{loading ? 'Creating account...' : 'Create account'}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/form&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Dashboard Component</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const Dashboard = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const { user, subscription, logout } = useAuth();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const hasActiveSubscription = subscription?.status === 'active' || subscription?.status === 'trialing';</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen bg-gray-50"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;nav className="bg-white shadow-sm"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="flex justify-between h-16"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="flex items-center"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h1 className="text-xl font-bold text-blue-600"&gt;Altrii Recovery&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="flex items-center space-x-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;span className="text-sm text-gray-700"&gt;{user?.email}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;button</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>onClick={logout}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>className="text-sm text-gray-500 hover:text-gray-700"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>Logout</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/nav&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="px-4 py-6 sm:px-0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h1 className="text-2xl font-semibold text-gray-900 mb-6"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>Welcome, {user?.first_name}!</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/h1&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* Email Verification Notice */}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{!user?.email_verified &amp;&amp; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="mb-6 rounded-md bg-amber-50 p-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="flex"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="ml-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;h3 className="text-sm font-medium text-amber-800"&gt;Email Verification Required&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="mt-2 text-sm text-amber-700"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;p&gt;Please check your email and verify your account to access all features.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>)}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* Subscription Status */}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="bg-white shadow rounded-lg p-6 mb-6"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h2 className="text-lg font-medium text-gray-900 mb-4"&gt;Subscription Status&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{hasActiveSubscription ? (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="flex items-center"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex-shrink-0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="w-12 h-12 text-green-500"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;Icons.Shield /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="ml-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-sm font-medium text-gray-900"&gt;Protection Active&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-sm text-gray-500"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>Your devices are protected. Status: {subscription.status}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>) : (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;p className="text-sm text-gray-500 mb-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>Start your 7-day free trial to protect your devices.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;a</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>href="/subscription"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>Start Free Trial</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* Coming Soon Notice */}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="bg-white shadow rounded-lg p-6"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="text-center py-12"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="mx-auto h-12 w-12 text-gray-400"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;Icons.Shield /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="mt-2 text-sm font-medium text-gray-900"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>Device Management Coming Soon</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;p className="mt-1 text-sm text-gray-500"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>You'll be able to download configuration profiles and manage your protected devices here.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;br /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>Check back soon for these features!</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/main&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Main App Component</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const App = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;BrowserRouter&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;NotificationProvider&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;AuthProvider&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;Routes&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;Route path="/" element={&lt;LandingPage /&gt;} /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;Route path="/login" element={&lt;Login /&gt;} /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;Route path="/register" element={&lt;Register /&gt;} /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;Route path="/dashboard" element={</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;ProtectedRoute&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;Dashboard /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/ProtectedRoute&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>} /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/Routes&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/AuthProvider&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/NotificationProvider&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/BrowserRouter&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Render the app</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+    <div id="root"></div>
+    <script type="text/babel">
+        // Configuration - Point to your deployed backend
+        const API_BASE_URL = 'https://api.altriirecovery.com/api';
+        
+        const { useState, useEffect, useContext, createContext } = React;
+        const { BrowserRouter, Routes, Route, Link, Navigate, useNavigate, useLocation } = window.ReactRouterDOM;
+
+        // Configure axios defaults
+        axios.defaults.baseURL = API_BASE_URL;
+
+        // Simple Icon Components (replacing Lucide)
+        const Icons = {
+            Shield: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+            ),
+            Clock: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            ),
+            User: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            )
+        };
+
+        // Auth Context
+        const AuthContext = createContext();
+
+        const AuthProvider = ({ children }) => {
+            const [user, setUser] = useState(null);
+            const [subscription, setSubscription] = useState(null);
+            const [loading, setLoading] = useState(true);
+            const navigate = useNavigate();
+
+            useEffect(() => {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    fetchUser();
+                } else {
+                    setLoading(false);
+                }
+            }, []);
+
+            const fetchUser = async () => {
+                try {
+                    const response = await axios.get('/auth/me');
+                    setUser(response.data.user);
+                    setSubscription(response.data.subscription);
+                } catch (error) {
+                    localStorage.removeItem('token');
+                    delete axios.defaults.headers.common['Authorization'];
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const login = async (email, password) => {
+                try {
+                    const response = await axios.post('/auth/login', { email, password });
+                    const { token, user } = response.data;
+                    
+                    localStorage.setItem('token', token);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    
+                    setUser(user);
+                    await fetchUser();
+                    
+                    return { success: true };
+                } catch (error) {
+                    return { success: false, error: error.response?.data?.error || 'Login failed' };
+                }
+            };
+
+            const register = async (userData) => {
+                try {
+                    const response = await axios.post('/auth/register', userData);
+                    const { token, user } = response.data;
+                    
+                    localStorage.setItem('token', token);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    
+                    setUser(user);
+                    
+                    return { success: true };
+                } catch (error) {
+                    return { success: false, error: error.response?.data?.error || 'Registration failed' };
+                }
+            };
+
+            const logout = () => {
+                localStorage.removeItem('token');
+                delete axios.defaults.headers.common['Authorization'];
+                setUser(null);
+                setSubscription(null);
+                navigate('/');
+            };
+
+            return (
+                <AuthContext.Provider value={{ user, subscription, loading, login, register, logout, fetchUser }}>
+                    {children}
+                </AuthContext.Provider>
+            );
+        };
+
+        const useAuth = () => useContext(AuthContext);
+
+        // Notification Context
+        const NotificationContext = createContext();
+
+        const NotificationProvider = ({ children }) => {
+            const [notifications, setNotifications] = useState([]);
+
+            const addNotification = (message, type = 'info') => {
+                const id = Date.now();
+                setNotifications(prev => [...prev, { id, message, type }]);
+                setTimeout(() => {
+                    setNotifications(prev => prev.filter(n => n.id !== id));
+                }, 5000);
+            };
+
+            return (
+                <NotificationContext.Provider value={{ addNotification }}>
+                    {children}
+                    <div className="fixed top-4 right-4 z-50 space-y-2">
+                        {notifications.map(({ id, message, type }) => (
+                            <div
+                                key={id}
+                                className={`p-4 rounded-lg shadow-lg transform transition-all duration-300 animate-fade-in ${
+                                    type === 'success' ? 'bg-green-500 text-white' :
+                                    type === 'error' ? 'bg-red-500 text-white' :
+                                    type === 'warning' ? 'bg-amber-500 text-white' :
+                                    'bg-blue-500 text-white'
+                                }`}
+                            >
+                                {message}
+                            </div>
+                        ))}
+                    </div>
+                </NotificationContext.Provider>
+            );
+        };
+
+        const useNotification = () => useContext(NotificationContext);
+
+        // Protected Route Component
+        const ProtectedRoute = ({ children }) => {
+            const { user, loading } = useAuth();
+            
+            if (loading) {
+                return (
+                    <div className="min-h-screen flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+                    </div>
+                );
+            }
+            
+            return user ? children : <Navigate to="/login" />;
+        };
+
+        // Landing Page Component
+        const LandingPage = () => {
+            const { user } = useAuth();
+            const navigate = useNavigate();
+
+            useEffect(() => {
+                if (user) {
+                    navigate('/dashboard');
+                }
+            }, [user, navigate]);
+
+            return (
+                <div className="min-h-screen bg-white">
+                    {/* Header */}
+                    <header className="relative overflow-hidden">
+                        <div className="gradient-bg">
+                            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+                                <div className="text-center">
+                                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+                                        Altrii Recovery
+                                    </h1>
+                                    <p className="text-xl md:text-2xl text-white opacity-90 mb-8 max-w-3xl mx-auto">
+                                        Take control of your digital wellness. Protect yourself from unwanted content with smart device management that cannot be easily bypassed.
+                                    </p>
+                                    <div className="space-x-4">
+                                        <Link
+                                            to="/register"
+                                            className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors"
+                                        >
+                                            Start Free Trial
+                                        </Link>
+                                        <Link
+                                            to="/login"
+                                            className="inline-flex items-center px-8 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-blue-600 transition-colors"
+                                        >
+                                            Sign In
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Features */}
+                    <section className="py-20 bg-gray-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                                    Why Choose Altrii Recovery?
+                                </h2>
+                                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                                    Our comprehensive digital wellness platform helps you build healthier relationships with technology.
+                                </p>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div className="text-center p-6 bg-white rounded-lg shadow-sm">
+                                    <div className="w-12 h-12 text-blue-600 mx-auto mb-4">
+                                        <Icons.Shield />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Unhackable Protection</h3>
+                                    <p className="text-gray-600">Factory reset prevention and auto-reenrollment ensure your protection cannot be easily bypassed.</p>
+                                </div>
+                                
+                                <div className="text-center p-6 bg-white rounded-lg shadow-sm">
+                                    <div className="w-12 h-12 text-blue-600 mx-auto mb-4">
+                                        <Icons.Clock />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Timer Commitments</h3>
+                                    <p className="text-gray-600">Set commitment periods that prevent impulsive changes to your protection settings.</p>
+                                </div>
+                                
+                                <div className="text-center p-6 bg-white rounded-lg shadow-sm">
+                                    <div className="w-12 h-12 text-blue-600 mx-auto mb-4">
+                                        <Icons.User />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Self-Directed</h3>
+                                    <p className="text-gray-600">No accountability partners required. Take control of your digital wellness privately.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* CTA */}
+                    <section className="py-20 bg-blue-600">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                                Ready to Start Your Journey?
+                            </h2>
+                            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                                Join users who have taken control of their digital wellness with Altrii Recovery.
+                            </p>
+                            <Link
+                                to="/register"
+                                className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 transition-colors"
+                            >
+                                Get Started Free
+                            </Link>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="bg-gray-800 text-white py-12">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center">
+                                <h3 className="text-2xl font-bold mb-4">Altrii Recovery</h3>
+                                <p className="text-gray-400 mb-4">Digital wellness for a healthier tomorrow</p>
+                                <div className="space-x-6">
+                                    <a href="#" className="text-gray-400 hover:text-white">Privacy</a>
+                                    <a href="#" className="text-gray-400 hover:text-white">Terms</a>
+                                    <a href="#" className="text-gray-400 hover:text-white">Support</a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        // Login Component
+        const Login = () => {
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+            const { login } = useAuth();
+            const navigate = useNavigate();
+            const { addNotification } = useNotification();
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                setError('');
+
+                const result = await login(email, password);
+                
+                if (result.success) {
+                    addNotification('Welcome back!', 'success');
+                    navigate('/dashboard');
+                } else {
+                    setError(result.error);
+                }
+                
+                setLoading(false);
+            };
+
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-md w-full space-y-8">
+                        <div>
+                            <div className="text-center mb-8">
+                                <Link to="/" className="text-2xl font-bold text-blue-600">
+                                    Altrii Recovery
+                                </Link>
+                            </div>
+                            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                                Sign in to your account
+                            </h2>
+                            <p className="mt-2 text-center text-sm text-gray-600">
+                                Or{' '}
+                                <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
+                                    create a new account
+                                </Link>
+                            </p>
+                        </div>
+                        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                            {error && (
+                                <div className="rounded-md bg-red-50 p-4">
+                                    <div className="text-sm text-red-800">{error}</div>
+                                </div>
+                            )}
+                            <div className="rounded-md shadow-sm -space-y-px">
+                                <div>
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        required
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                        placeholder="Email address"
+                                    />
+                                </div>
+                                <div>
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        autoComplete="current-password"
+                                        required
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                        placeholder="Password"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {loading ? 'Signing in...' : 'Sign in'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        };
+
+        // Register Component
+        const Register = () => {
+            const [formData, setFormData] = useState({
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: ''
+            });
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+            const { register } = useAuth();
+            const navigate = useNavigate();
+            const { addNotification } = useNotification();
+
+            const handleChange = (e) => {
+                setFormData({ ...formData, [e.target.name]: e.target.value });
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                setError('');
+
+                const result = await register(formData);
+                
+                if (result.success) {
+                    addNotification('Account created successfully!', 'success');
+                    navigate('/dashboard');
+                } else {
+                    setError(result.error);
+                }
+                
+                setLoading(false);
+            };
+
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-md w-full space-y-8">
+                        <div>
+                            <div className="text-center mb-8">
+                                <Link to="/" className="text-2xl font-bold text-blue-600">
+                                    Altrii Recovery
+                                </Link>
+                            </div>
+                            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                                Create your account
+                            </h2>
+                            <p className="mt-2 text-center text-sm text-gray-600">
+                                Or{' '}
+                                <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
+                                    sign in to your existing account
+                                </Link>
+                            </p>
+                        </div>
+                        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                            {error && (
+                                <div className="rounded-md bg-red-50 p-4">
+                                    <div className="text-sm text-red-800">{error}</div>
+                                </div>
+                            )}
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <input
+                                        name="firstName"
+                                        type="text"
+                                        required
+                                        value={formData.firstName}
+                                        onChange={handleChange}
+                                        className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                        placeholder="First name"
+                                    />
+                                    <input
+                                        name="lastName"
+                                        type="text"
+                                        required
+                                        value={formData.lastName}
+                                        onChange={handleChange}
+                                        className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                        placeholder="Last name"
+                                    />
+                                </div>
+                                <input
+                                    name="email"
+                                    type="email"
+                                    required
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    placeholder="Email address"
+                                />
+                                <input
+                                    name="password"
+                                    type="password"
+                                    required
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    placeholder="Password (8+ characters)"
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                            >
+                                {loading ? 'Creating account...' : 'Create account'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        };
+
+        // Dashboard Component
+        const Dashboard = () => {
+            const { user, subscription, logout } = useAuth();
+            const hasActiveSubscription = subscription?.status === 'active' || subscription?.status === 'trialing';
+            
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <nav className="bg-white shadow-sm">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between h-16">
+                                <div className="flex items-center">
+                                    <h1 className="text-xl font-bold text-blue-600">Altrii Recovery</h1>
+                                </div>
+                                <div className="flex items-center space-x-4">
+                                    <span className="text-sm text-gray-700">{user?.email}</span>
+                                    <button
+                                        onClick={logout}
+                                        className="text-sm text-gray-500 hover:text-gray-700"
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                        <div className="px-4 py-6 sm:px-0">
+                            <h1 className="text-2xl font-semibold text-gray-900 mb-6">
+                                Welcome, {user?.first_name}!
+                            </h1>
+                            
+                            {/* Email Verification Notice */}
+                            {!user?.email_verified && (
+                                <div className="mb-6 rounded-md bg-amber-50 p-4">
+                                    <div className="flex">
+                                        <div className="ml-3">
+                                            <h3 className="text-sm font-medium text-amber-800">Email Verification Required</h3>
+                                            <div className="mt-2 text-sm text-amber-700">
+                                                <p>Please check your email and verify your account to access all features.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Subscription Status */}
+                            <div className="bg-white shadow rounded-lg p-6 mb-6">
+                                <h2 className="text-lg font-medium text-gray-900 mb-4">Subscription Status</h2>
+                                {hasActiveSubscription ? (
+                                    <div className="flex items-center">
+                                        <div className="flex-shrink-0">
+                                            <div className="w-12 h-12 text-green-500">
+                                                <Icons.Shield />
+                                            </div>
+                                        </div>
+                                        <div className="ml-4">
+                                            <p className="text-sm font-medium text-gray-900">Protection Active</p>
+                                            <p className="text-sm text-gray-500">
+                                                Your devices are protected. Status: {subscription.status}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <p className="text-sm text-gray-500 mb-4">
+                                            Start your 7-day free trial to protect your devices.
+                                        </p>
+                                        <a
+                                            href="/subscription"
+                                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+                                        >
+                                            Start Free Trial
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Coming Soon Notice */}
+                            <div className="bg-white shadow rounded-lg p-6">
+                                <div className="text-center py-12">
+                                    <div className="mx-auto h-12 w-12 text-gray-400">
+                                        <Icons.Shield />
+                                    </div>
+                                    <h3 className="mt-2 text-sm font-medium text-gray-900">
+                                        Device Management Coming Soon
+                                    </h3>
+                                    <p className="mt-1 text-sm text-gray-500">
+                                        You'll be able to download configuration profiles and manage your protected devices here.
+                                        <br />
+                                        Check back soon for these features!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            return (
+                <BrowserRouter>
+                    <NotificationProvider>
+                        <AuthProvider>
+                            <Routes>
+                                <Route path="/" element={<LandingPage />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/register" element={<Register />} />
+                                <Route path="/dashboard" element={
+                                    <ProtectedRoute>
+                                        <Dashboard />
+                                    </ProtectedRoute>
+                                } />
+                            </Routes>
+                        </AuthProvider>
+                    </NotificationProvider>
+                </BrowserRouter>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
 </body>
 </html>
