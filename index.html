@@ -63,7 +63,7 @@
         const API_BASE_URL = 'https://api.altriirecovery.com/api';
         
         // Get React Router components
-        const { BrowserRouter, Routes, Route, Link, Navigate, useNavigate, useLocation } = ReactRouterDOM;
+        const { HashRouter, Routes, Route, Link, Navigate, useNavigate, useLocation } = ReactRouterDOM;
         const { useState, useEffect, useContext, createContext } = React;
 
         // Configure axios
@@ -572,7 +572,7 @@
         // Main App
         const App = () => {
             return (
-                <BrowserRouter>
+                <HashRouter>
                     <AuthProvider>
                         <Routes>
                             <Route path="/" element={<LandingPage />} />
@@ -585,7 +585,7 @@
                             } />
                         </Routes>
                     </AuthProvider>
-                </BrowserRouter>
+                </HashRouter>
             );
         };
 
