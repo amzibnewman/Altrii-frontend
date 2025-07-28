@@ -691,6 +691,267 @@
             );
         };
 
+    
+
+        // Installation Instructions Component
+        const InstallationInstructions = ({ device, onClose }) => {
+            const [currentStep, setCurrentStep] = useState(0);
+            const [showVideo, setShowVideo] = useState(false);
+
+            const steps = [
+                {
+                    title: "Download the Profile",
+                    description: "First, download the configuration profile to your device",
+                    details: [
+                        "Click the 'Download Profile' button on your device card",
+                        "Or check your email if you chose 'Email Profile'",
+                        "The file will be named: altrii-[device-name].mobileconfig"
+                    ],
+                    image: "📥"
+                },
+                {
+                    title: "Allow Download",
+                    description: "iOS will ask permission to download the configuration profile",
+                    details: [
+                        "Tap 'Allow' when prompted",
+                        "You'll see 'Profile Downloaded' notification",
+                        "If nothing happens, check your Downloads folder"
+                    ],
+                    image: "✅"
+                },
+                {
+                    title: "Open Settings",
+                    description: "Navigate to your device settings",
+                    details: [
+                        "Open the Settings app on your iPhone/iPad",
+                        "You'll see 'Profile Downloaded' near the top",
+                        "Tap on it to continue"
+                    ],
+                    image: "⚙️"
+                },
+                {
+                    title: "Install Profile",
+                    description: "Install the Altrii Recovery profile",
+                    details: [
+                        "Tap 'Install' in the top right corner",
+                        "Enter your device passcode when prompted",
+                        "Tap 'Install' again to confirm",
+                        "Tap 'Install' one more time on the warning screen"
+                    ],
+                    image: "🔐"
+                },
+                {
+                    title: "Complete Installation",
+                    description: "Finish the setup process",
+                    details: [
+                        "Tap 'Done' to complete installation",
+                        "The profile is now active",
+                        "You can verify in Settings > General > VPN & Device Management"
+                    ],
+                    image: "🎉"
+                }
+            ];
+
+            const troubleshooting = [
+                {
+                    issue: "Profile won't download",
+                    solution: "Try using Safari browser. Chrome or other browsers may not work properly for profile downloads."
+                },
+                {
+                    issue: "Can't find 'Profile Downloaded' in Settings",
+                    solution: "Go to Settings > General > VPN & Device Management > Downloaded Profile"
+                },
+                {
+                    issue: "Installation failed",
+                    solution: "Make sure you have a passcode set on your device. Profiles require device authentication."
+                },
+                {
+                    issue: "Websites aren't being blocked",
+                    solution: "Restart Safari or clear your browser cache. The filtering may take a moment to activate."
+                }
+            ];
+
+            return (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+                    <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
+                            <h2 className="text-2xl font-bold">Installation Guide</h2>
+                            <button
+                                onClick={onClose}
+                                className="text-gray-500 hover:text-gray-700 text-2xl"
+                            >
+                                ×
+                            </button>
+                        </div>
+
+                        <div className="p-6">
+                            {/* Device Info */}
+                            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+                                <p className="text-sm text-blue-800">
+                                    Installing profile for: <strong>{device?.device_name || 'Your Device'}</strong>
+                                </p>
+                            </div>
+
+                            {/* Progress Bar */}
+                            <div className="mb-8">
+                                <div className="flex justify-between mb-2">
+                                    {steps.map((step, index) => (
+                                        <div
+                                            key={index}
+                                            className={`flex-1 text-center ${
+                                                index <= currentStep ? 'text-blue-600' : 'text-gray-400'
+                                            }`}
+                                        >
+                                            <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center text-lg ${
+                                                index < currentStep 
+                                                    ? 'bg-blue-600 text-white' 
+                                                    : index === currentStep 
+                                                    ? 'bg-blue-600 text-white ring-4 ring-blue-200' 
+                                                    : 'bg-gray-200'
+                                            }`}>
+                                                {index < currentStep ? '✓' : index + 1}
+                                            </div>
+                                            <p className="text-xs mt-1 hidden sm:block">{step.title}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    <div 
+                                        className="h-full bg-blue-600 transition-all duration-300"
+                                        style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Current Step */}
+                            <div className="mb-8">
+                                <div className="text-center mb-6">
+                                    <div className="text-6xl mb-4">{steps[currentStep].image}</div>
+                                    <h3 className="text-2xl font-bold mb-2">{steps[currentStep].title}</h3>
+                                    <p className="text-gray-600">{steps[currentStep].description}</p>
+                                </div>
+
+                                <div className="bg-gray-50 rounded-lg p-6">
+                                    <h4 className="font-semibold mb-3">Steps:</h4>
+                                    <ol className="space-y-2">
+                                        {steps[currentStep].details.map((detail, index) => (
+                                            <li key={index} className="flex items-start">
+                                                <span className="text-blue-600 font-semibold mr-2">{index + 1}.</span>
+                                                <span>{detail}</span>
+                                            </li>
+                                        ))}
+                                    </ol>
+                                </div>
+                            </div>
+
+                            {/* Navigation Buttons */}
+                            <div className="flex justify-between mb-8">
+                                <button
+                                    onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                                    disabled={currentStep === 0}
+                                    className={`px-6 py-2 rounded-lg ${
+                                        currentStep === 0
+                                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                            : 'bg-gray-600 text-white hover:bg-gray-700'
+                                    }`}
+                                >
+                                    Previous
+                                </button>
+                                
+                                {currentStep < steps.length - 1 ? (
+                                    <button
+                                        onClick={() => setCurrentStep(currentStep + 1)}
+                                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                    >
+                                        Next Step
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={onClose}
+                                        className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                                    >
+                                        Done
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Video Tutorial */}
+                            <div className="mb-8 text-center">
+                                <button
+                                    onClick={() => setShowVideo(!showVideo)}
+                                    className="text-blue-600 hover:text-blue-700 font-medium"
+                                >
+                                    {showVideo ? 'Hide' : 'Show'} Video Tutorial
+                                </button>
+                                
+                                {showVideo && (
+                                    <div className="mt-4 bg-gray-100 rounded-lg p-8">
+                                        <p className="text-gray-600">
+                                            Video tutorial coming soon! For now, follow the step-by-step instructions above.
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Troubleshooting */}
+                            <div className="border-t pt-6">
+                                <h3 className="text-lg font-semibold mb-4">Troubleshooting</h3>
+                                <div className="space-y-4">
+                                    {troubleshooting.map((item, index) => (
+                                        <div key={index} className="bg-amber-50 rounded-lg p-4">
+                                            <h4 className="font-semibold text-amber-900 mb-1">
+                                                Issue: {item.issue}
+                                            </h4>
+                                            <p className="text-amber-800 text-sm">
+                                                Solution: {item.solution}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Additional Help */}
+                            <div className="mt-6 p-4 bg-gray-100 rounded-lg text-center">
+                                <p className="text-sm text-gray-600">
+                                    Need more help? Email us at{' '}
+                                    <a href="mailto:support@altriirecovery.com" className="text-blue-600 hover:underline">
+                                        support@altriirecovery.com
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Quick Install Guide Component (Compact Version)
+        const QuickInstallGuide = () => {
+            return (
+                <div className="bg-blue-50 rounded-lg p-6 mb-6">
+                    <h3 className="font-semibold text-blue-900 mb-3">Quick Install Guide</h3>
+                    <ol className="space-y-2 text-sm text-blue-800">
+                        <li className="flex items-start">
+                            <span className="font-semibold mr-2">1.</span>
+                            Download the profile on your iOS device
+                        </li>
+                        <li className="flex items-start">
+                            <span className="font-semibold mr-2">2.</span>
+                            Open Settings → tap "Profile Downloaded"
+                        </li>
+                        <li className="flex items-start">
+                            <span className="font-semibold mr-2">3.</span>
+                            Tap Install (3 times) and enter your passcode
+                        </li>
+                        <li className="flex items-start">
+                            <span className="font-semibold mr-2">4.</span>
+                            Tap Done - you're protected! 🎉
+                        </li>
+                    </ol>
+                </div>
+            );
+        };
+
         // Updated Dashboard Component with Navigation
         const Dashboard = ({ user, onLogout }) => {
             const [currentView, setCurrentView] = useState('overview');
