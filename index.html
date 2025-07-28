@@ -365,6 +365,7 @@
             const [showAddDevice, setShowAddDevice] = useState(false);
             const [message, setMessage] = useState({ type: '', text: '' });
             const [loading, setLoading] = useState(true);
+            const [showInstructions, setShowInstructions] = useState(null);
 
             useEffect(() => {
                 fetchDevices();
