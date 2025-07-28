@@ -42,6 +42,17 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 </svg>
+            ),
+            Plus: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            ),
+            Check: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
             )
         };
 
@@ -51,6 +62,7 @@
             const [user, setUser] = useState(null);
             const [loading, setLoading] = useState(true);
             const [error, setError] = useState('');
+            const [showOnboarding, setShowOnboarding] = useState(false);
 
             useEffect(() => {
                 const token = localStorage.getItem('token');
@@ -67,6 +79,12 @@
                     const response = await axios.get('/auth/me');
                     setUser(response.data.user);
                     setCurrentPage('dashboard');
+                    
+                    // Check if user needs onboarding
+                    const devicesResponse = await axios.get('/devices');
+                    if (!devicesResponse.data.devices || devicesResponse.data.devices.length === 0) {
+                        setShowOnboarding(true);
+                    }
                 } catch (error) {
                     localStorage.removeItem('token');
                     delete axios.defaults.headers.common['Authorization'];
@@ -106,6 +124,7 @@
                     
                     setUser(user);
                     setCurrentPage('dashboard');
+                    setShowOnboarding(true);
                     
                     return { success: true };
                 } catch (error) {
@@ -208,7 +227,7 @@
 
             // Dashboard
             if (currentPage === 'dashboard') {
-                return <Dashboard user={user} onLogout={handleLogout} />;
+                return <Dashboard user={user} onLogout={handleLogout} showOnboarding={showOnboarding} setShowOnboarding={setShowOnboarding} />;
             }
         };
 
@@ -357,8 +376,6 @@
             );
         };
 
-
-
         // Device Management Component
         const DeviceManagement = () => {
             const [devices, setDevices] = useState([]);
@@ -442,6 +459,9 @@
                         </div>
                     )}
 
+                    {/* Quick Install Guide */}
+                    <QuickInstallGuide />
+
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                         <div className="bg-white rounded-lg shadow p-6">
@@ -520,18 +540,28 @@
                                         </div>
                                     </div>
                                     
-                                    <div className="flex gap-2">
+                                    <div className="space-y-2">
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={() => handleDownloadProfile(device, 'download')}
+                                                className="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                            >
+                                                Download Profile
+                                            </button>
+                                            <button
+                                                onClick={() => handleDownloadProfile(device, 'email')}
+                                                className="flex-1 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+                                            >
+                                                Email Profile
+                                            </button>
+                                        </div>
+                                        
+                                        {/* Installation Instructions Button */}
                                         <button
-                                            onClick={() => handleDownloadProfile(device, 'download')}
-                                            className="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                            onClick={() => setShowInstructions(device)}
+                                            className="w-full px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50"
                                         >
-                                            Download Profile
-                                        </button>
-                                        <button
-                                            onClick={() => handleDownloadProfile(device, 'email')}
-                                            className="flex-1 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
-                                        >
-                                            Email Profile
+                                            📱 Installation Instructions
                                         </button>
                                     </div>
                                 </div>
@@ -544,6 +574,14 @@
                         <AddDeviceModal
                             onClose={() => setShowAddDevice(false)}
                             onAdd={handleAddDevice}
+                        />
+                    )}
+                    
+                    {/* Installation Instructions Modal */}
+                    {showInstructions && (
+                        <InstallationInstructions
+                            device={showInstructions}
+                            onClose={() => setShowInstructions(null)}
                         />
                     )}
                 </div>
@@ -691,8 +729,6 @@
                 </div>
             );
         };
-
-    
 
         // Installation Instructions Component
         const InstallationInstructions = ({ device, onClose }) => {
@@ -953,9 +989,230 @@
             );
         };
 
-        // Updated Dashboard Component with Navigation
-        const Dashboard = ({ user, onLogout }) => {
+        // Onboarding Component
+        const OnboardingFlow = ({ onComplete }) => {
+            const [step, setStep] = useState(0);
+            const [deviceData, setDeviceData] = useState({
+                device_name: '',
+                device_type: 'iphone',
+                block_adult: true,
+                block_dating: false,
+                block_gambling: false,
+                block_social: false,
+                block_streaming: false,
+                block_gaming: false
+            });
+
+            const steps = [
+                {
+                    title: "Welcome to Altrii Recovery",
+                    content: (
+                        <div className="text-center py-8">
+                            <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Icons.Shield />
+                            </div>
+                            <h2 className="text-2xl font-bold mb-4">Your Digital Wellness Journey Starts Here</h2>
+                            <p className="text-gray-600 mb-6">
+                                Let's set up your first device to start protecting your digital wellness.
+                            </p>
+                            <button
+                                onClick={() => setStep(1)}
+                                className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700"
+                            >
+                                Get Started
+                            </button>
+                        </div>
+                    )
+                },
+                {
+                    title: "Add Your First Device",
+                    content: (
+                        <div>
+                            <h2 className="text-2xl font-bold mb-6">Let's protect your first device</h2>
+                            
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Device Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        placeholder="e.g., My iPhone"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                        value={deviceData.device_name}
+                                        onChange={(e) => setDeviceData({...deviceData, device_name: e.target.value})}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Device Type
+                                    </label>
+                                    <select
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                        value={deviceData.device_type}
+                                        onChange={(e) => setDeviceData({...deviceData, device_type: e.target.value})}
+                                    >
+                                        <option value="iphone">iPhone</option>
+                                        <option value="ipad">iPad</option>
+                                    </select>
+                                </div>
+
+                                <div className="flex gap-3 mt-6">
+                                    <button
+                                        onClick={() => setStep(0)}
+                                        className="flex-1 px-4 py-2 border border-gray-300 rounded-md"
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        onClick={() => deviceData.device_name && setStep(2)}
+                                        disabled={!deviceData.device_name}
+                                        className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    title: "Choose What to Block",
+                    content: (
+                        <div>
+                            <h2 className="text-2xl font-bold mb-6">What would you like to block?</h2>
+                            
+                            <div className="space-y-3">
+                                <div className="p-4 bg-gray-100 rounded-lg">
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={true}
+                                            disabled
+                                            className="mr-3"
+                                        />
+                                        <div>
+                                            <p className="font-medium">Adult Content</p>
+                                            <p className="text-sm text-gray-600">Always blocked for your protection</p>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                {[
+                                    { key: 'block_dating', label: 'Dating Sites', desc: 'Tinder, Bumble, etc.' },
+                                    { key: 'block_gambling', label: 'Gambling', desc: 'Online betting and casino sites' },
+                                    { key: 'block_social', label: 'Social Media', desc: 'Facebook, Instagram, Twitter, etc.' },
+                                    { key: 'block_streaming', label: 'Streaming', desc: 'YouTube, Netflix, etc.' },
+                                    { key: 'block_gaming', label: 'Gaming', desc: 'Online gaming platforms' }
+                                ].map(({ key, label, desc }) => (
+                                    <div key={key} className="p-4 border rounded-lg">
+                                        <label className="flex items-center">
+                                            <input
+                                                type="checkbox"
+                                                checked={deviceData[key]}
+                                                onChange={(e) => setDeviceData({...deviceData, [key]: e.target.checked})}
+                                                className="mr-3"
+                                            />
+                                            <div>
+                                                <p className="font-medium">{label}</p>
+                                                <p className="text-sm text-gray-600">{desc}</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="flex gap-3 mt-6">
+                                <button
+                                    onClick={() => setStep(1)}
+                                    className="flex-1 px-4 py-2 border border-gray-300 rounded-md"
+                                >
+                                    Back
+                                </button>
+                                <button
+                                    onClick={async () => {
+                                        try {
+                                            const response = await axios.post('/devices', deviceData);
+                                            if (response.data.success) {
+                                                setStep(3);
+                                            }
+                                        } catch (error) {
+                                            console.error('Failed to add device');
+                                        }
+                                    }}
+                                    className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                                >
+                                    Create Protection Profile
+                                </button>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    title: "Success!",
+                    content: (
+                        <div className="text-center py-8">
+                            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600">
+                                <Icons.Check />
+                            </div>
+                            <h2 className="text-2xl font-bold mb-4">Device Added Successfully!</h2>
+                            <p className="text-gray-600 mb-6">
+                                Now let's install the protection profile on your {deviceData.device_type}.
+                            </p>
+                            <button
+                                onClick={onComplete}
+                                className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700"
+                            >
+                                Go to Dashboard
+                            </button>
+                        </div>
+                    )
+                }
+            ];
+
+            return (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-lg max-w-md w-full p-6">
+                        <div className="mb-6">
+                            <div className="flex justify-between mb-2">
+                                {steps.map((_, index) => (
+                                    <div
+                                        key={index}
+                                        className={`flex-1 h-2 mx-1 rounded-full ${
+                                            index <= step ? 'bg-blue-600' : 'bg-gray-200'
+                                        }`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        
+                        {steps[step].content}
+                    </div>
+                </div>
+            );
+        };
+
+        // Updated Dashboard Component with Navigation and Onboarding
+        const Dashboard = ({ user, onLogout, showOnboarding, setShowOnboarding }) => {
             const [currentView, setCurrentView] = useState('overview');
+            const [devices, setDevices] = useState([]);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                fetchDevices();
+            }, []);
+
+            const fetchDevices = async () => {
+                try {
+                    const response = await axios.get('/devices');
+                    setDevices(response.data.devices || []);
+                } catch (error) {
+                    console.error('Failed to load devices');
+                } finally {
+                    setLoading(false);
+                }
+            };
 
             return (
                 <div className="min-h-screen bg-gray-50">
@@ -1016,24 +1273,124 @@
                                     </div>
                                 )}
 
-                                <div className="bg-white shadow rounded-lg p-6">
-                                    <div className="text-center py-12">
-                                        <div className="mx-auto h-12 w-12 text-gray-400">
-                                            <Icons.Shield />
+                                {/* Dashboard Stats */}
+                                {!loading && (
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                        <div className="bg-white rounded-lg shadow p-6">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-sm text-gray-600">Protection Status</p>
+                                                    <p className="text-2xl font-bold text-gray-900">
+                                                        {devices.filter(d => d.profile_installed).length > 0 ? 'Active' : 'Not Active'}
+                                                    </p>
+                                                </div>
+                                                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                                    devices.filter(d => d.profile_installed).length > 0 
+                                                        ? 'bg-green-100 text-green-600' 
+                                                        : 'bg-yellow-100 text-yellow-600'
+                                                }`}>
+                                                    <Icons.Shield />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <h3 className="mt-2 text-sm font-medium text-gray-900">
-                                            Getting Started
-                                        </h3>
-                                        <p className="mt-1 text-sm text-gray-500">
-                                            Click on "Devices" above to start protecting your devices.
-                                        </p>
+                                        
+                                        <div className="bg-white rounded-lg shadow p-6">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-sm text-gray-600">Protected Devices</p>
+                                                    <p className="text-2xl font-bold text-gray-900">
+                                                        {devices.filter(d => d.profile_installed).length} / {devices.length}
+                                                    </p>
+                                                </div>
+                                                <Icons.Shield />
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="bg-white rounded-lg shadow p-6">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-sm text-gray-600">Sites Blocked</p>
+                                                    <p className="text-2xl font-bold text-gray-900">1,247+</p>
+                                                </div>
+                                                <Icons.Shield />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                )}
+
+                                {/* Getting Started Card */}
+                                {devices.length === 0 && !loading && (
+                                    <div className="bg-white shadow rounded-lg p-6">
+                                        <div className="text-center py-12">
+                                            <div className="mx-auto h-12 w-12 text-gray-400">
+                                                <Icons.Shield />
+                                            </div>
+                                            <h3 className="mt-2 text-lg font-medium text-gray-900">
+                                                Get Started with Protection
+                                            </h3>
+                                            <p className="mt-1 text-sm text-gray-500">
+                                                Add your first device to start protecting your digital wellness.
+                                            </p>
+                                            <button
+                                                onClick={() => setCurrentView('devices')}
+                                                className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                                            >
+                                                Add Device
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Device Summary */}
+                                {devices.length > 0 && !loading && (
+                                    <div className="bg-white shadow rounded-lg p-6">
+                                        <h3 className="text-lg font-medium text-gray-900 mb-4">Your Devices</h3>
+                                        <div className="space-y-3">
+                                            {devices.slice(0, 3).map(device => (
+                                                <div key={device.id} className="flex items-center justify-between p-3 border rounded-lg">
+                                                    <div className="flex items-center gap-3">
+                                                        <Icons.Shield />
+                                                        <div>
+                                                            <p className="font-medium">{device.device_name}</p>
+                                                            <p className="text-sm text-gray-600 capitalize">{device.device_type}</p>
+                                                        </div>
+                                                    </div>
+                                                    <span className={`px-2 py-1 text-xs rounded-full ${
+                                                        device.profile_installed 
+                                                            ? 'bg-green-100 text-green-800' 
+                                                            : 'bg-yellow-100 text-yellow-800'
+                                                    }`}>
+                                                        {device.profile_installed ? 'Protected' : 'Setup Required'}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        {devices.length > 3 && (
+                                            <button
+                                                onClick={() => setCurrentView('devices')}
+                                                className="mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                                            >
+                                                View all devices →
+                                            </button>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         ) : (
                             <DeviceManagement />
                         )}
                     </main>
+
+                    {/* Onboarding Flow */}
+                    {showOnboarding && (
+                        <OnboardingFlow
+                            onComplete={() => {
+                                setShowOnboarding(false);
+                                fetchDevices();
+                                setCurrentView('devices');
+                            }}
+                        />
+                    )}
                 </div>
             );
         };
