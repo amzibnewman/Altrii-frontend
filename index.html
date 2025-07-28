@@ -357,15 +357,373 @@
             );
         };
 
-        // Dashboard Component
+        <!-- Add this inside your existing <script type="text/babel"> tag, replacing the old Dashboard component -->
+
+        // Device Management Component
+        const DeviceManagement = () => {
+            const [devices, setDevices] = useState([]);
+            const [showAddDevice, setShowAddDevice] = useState(false);
+            const [message, setMessage] = useState({ type: '', text: '' });
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                fetchDevices();
+            }, []);
+
+            const fetchDevices = async () => {
+                try {
+                    const response = await axios.get('/devices');
+                    setDevices(response.data.devices || []);
+                } catch (error) {
+                    console.error('Failed to load devices:', error);
+                    setMessage({ type: 'error', text: 'Failed to load devices' });
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleDownloadProfile = async (device, method) => {
+                try {
+                    if (method === 'email') {
+                        const response = await axios.get(`/profiles/ios/${device.id}?action=email`);
+                        showMessage('success', 'Profile sent to your email!');
+                    } else {
+                        // Create a download link
+                        const token = localStorage.getItem('token');
+                        const link = document.createElement('a');
+                        link.href = `${API_BASE_URL}/profiles/ios/${device.id}?token=${token}`;
+                        link.download = `altrii-${device.device_name}.mobileconfig`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        showMessage('success', 'Profile downloading...');
+                    }
+                } catch (error) {
+                    showMessage('error', 'Failed to download profile');
+                }
+            };
+
+            const showMessage = (type, text) => {
+                setMessage({ type, text });
+                setTimeout(() => setMessage({ type: '', text: '' }), 5000);
+            };
+
+            const handleAddDevice = async (deviceData) => {
+                try {
+                    const response = await axios.post('/devices', deviceData);
+                    if (response.data.success) {
+                        setShowAddDevice(false);
+                        fetchDevices();
+                        showMessage('success', 'Device added successfully!');
+                    }
+                } catch (error) {
+                    showMessage('error', 'Failed to add device');
+                }
+            };
+
+            if (loading) {
+                return (
+                    <div className="flex justify-center items-center p-12">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="px-4 py-6">
+                    <h1 className="text-2xl font-semibold text-gray-900 mb-6">Device Protection</h1>
+                    
+                    {message.text && (
+                        <div className={`mb-6 p-4 rounded-lg ${
+                            message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                            {message.text}
+                        </div>
+                    )}
+
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div className="bg-white rounded-lg shadow p-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-gray-600">Protected Devices</p>
+                                    <p className="text-2xl font-bold text-gray-900">
+                                        {devices.filter(d => d.profile_installed).length}
+                                    </p>
+                                </div>
+                                <Icons.Shield />
+                            </div>
+                        </div>
+                        <div className="bg-white rounded-lg shadow p-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-gray-600">Total Devices</p>
+                                    <p className="text-2xl font-bold text-gray-900">{devices.length}</p>
+                                </div>
+                                <Icons.Shield />
+                            </div>
+                        </div>
+                        <div className="bg-white rounded-lg shadow p-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-gray-600">Sites Blocked</p>
+                                    <p className="text-2xl font-bold text-gray-900">1,247+</p>
+                                </div>
+                                <Icons.Shield />
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        onClick={() => setShowAddDevice(true)}
+                        className="mb-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 inline-flex items-center gap-2"
+                    >
+                        <span className="text-xl">+</span> Add New Device
+                    </button>
+
+                    {devices.length === 0 ? (
+                        <div className="bg-white rounded-lg shadow p-12 text-center">
+                            <Icons.Shield />
+                            <h3 className="mt-4 text-lg font-medium text-gray-900">No devices yet</h3>
+                            <p className="mt-2 text-sm text-gray-500">
+                                Add your first device to start protecting your digital wellness.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {devices.map(device => (
+                                <div key={device.id} className="bg-white rounded-lg shadow p-6">
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div>
+                                            <h3 className="text-lg font-semibold text-gray-900">{device.device_name}</h3>
+                                            <p className="text-sm text-gray-600 capitalize">{device.device_type}</p>
+                                        </div>
+                                        <span className={`px-2 py-1 text-xs rounded-full ${
+                                            device.profile_installed 
+                                                ? 'bg-green-100 text-green-800' 
+                                                : 'bg-yellow-100 text-yellow-800'
+                                        }`}>
+                                            {device.profile_installed ? 'Protected' : 'Setup Required'}
+                                        </span>
+                                    </div>
+                                    
+                                    <div className="mb-4 text-sm text-gray-600">
+                                        <p className="mb-1">Blocking:</p>
+                                        <div className="flex flex-wrap gap-1">
+                                            <span className="bg-gray-100 px-2 py-1 rounded text-xs">Adult Content</span>
+                                            {device.block_dating && <span className="bg-gray-100 px-2 py-1 rounded text-xs">Dating</span>}
+                                            {device.block_gambling && <span className="bg-gray-100 px-2 py-1 rounded text-xs">Gambling</span>}
+                                            {device.block_social && <span className="bg-gray-100 px-2 py-1 rounded text-xs">Social Media</span>}
+                                            {device.block_streaming && <span className="bg-gray-100 px-2 py-1 rounded text-xs">Streaming</span>}
+                                            {device.block_gaming && <span className="bg-gray-100 px-2 py-1 rounded text-xs">Gaming</span>}
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => handleDownloadProfile(device, 'download')}
+                                            className="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                        >
+                                            Download Profile
+                                        </button>
+                                        <button
+                                            onClick={() => handleDownloadProfile(device, 'email')}
+                                            className="flex-1 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+                                        >
+                                            Email Profile
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Add Device Modal */}
+                    {showAddDevice && (
+                        <AddDeviceModal
+                            onClose={() => setShowAddDevice(false)}
+                            onAdd={handleAddDevice}
+                        />
+                    )}
+                </div>
+            );
+        };
+
+        // Add Device Modal Component
+        const AddDeviceModal = ({ onClose, onAdd }) => {
+            const [deviceData, setDeviceData] = useState({
+                device_name: '',
+                device_type: 'iphone',
+                block_adult: true,
+                block_dating: false,
+                block_gambling: false,
+                block_social: false,
+                block_streaming: false,
+                block_gaming: false
+            });
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (deviceData.device_name.trim()) {
+                    onAdd(deviceData);
+                }
+            };
+
+            return (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-lg max-w-md w-full p-6">
+                        <h2 className="text-2xl font-bold mb-4">Add New Device</h2>
+                        
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Device Name
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    placeholder="e.g., John's iPhone"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value={deviceData.device_name}
+                                    onChange={(e) => setDeviceData({...deviceData, device_name: e.target.value})}
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Device Type
+                                </label>
+                                <select
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value={deviceData.device_type}
+                                    onChange={(e) => setDeviceData({...deviceData, device_type: e.target.value})}
+                                >
+                                    <option value="iphone">iPhone</option>
+                                    <option value="ipad">iPad</option>
+                                </select>
+                            </div>
+
+                            <div className="mb-6">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Block Categories
+                                </label>
+                                <div className="space-y-2">
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={deviceData.block_adult}
+                                            disabled
+                                            className="mr-2"
+                                        />
+                                        <span className="text-sm">Adult Content (Always On)</span>
+                                    </label>
+                                    
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={deviceData.block_dating}
+                                            onChange={(e) => setDeviceData({...deviceData, block_dating: e.target.checked})}
+                                            className="mr-2"
+                                        />
+                                        <span className="text-sm">Dating Sites</span>
+                                    </label>
+                                    
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={deviceData.block_gambling}
+                                            onChange={(e) => setDeviceData({...deviceData, block_gambling: e.target.checked})}
+                                            className="mr-2"
+                                        />
+                                        <span className="text-sm">Gambling</span>
+                                    </label>
+                                    
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={deviceData.block_social}
+                                            onChange={(e) => setDeviceData({...deviceData, block_social: e.target.checked})}
+                                            className="mr-2"
+                                        />
+                                        <span className="text-sm">Social Media</span>
+                                    </label>
+                                    
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={deviceData.block_streaming}
+                                            onChange={(e) => setDeviceData({...deviceData, block_streaming: e.target.checked})}
+                                            className="mr-2"
+                                        />
+                                        <span className="text-sm">Streaming Services</span>
+                                    </label>
+                                    
+                                    <label className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={deviceData.block_gaming}
+                                            onChange={(e) => setDeviceData({...deviceData, block_gaming: e.target.checked})}
+                                            className="mr-2"
+                                        />
+                                        <span className="text-sm">Gaming Sites</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={onClose}
+                                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                                >
+                                    Add Device
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        };
+
+        // Updated Dashboard Component with Navigation
         const Dashboard = ({ user, onLogout }) => {
+            const [currentView, setCurrentView] = useState('overview');
+
             return (
                 <div className="min-h-screen bg-gray-50">
                     <nav className="bg-white shadow-sm">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="flex justify-between h-16">
-                                <div className="flex items-center">
+                                <div className="flex items-center space-x-8">
                                     <h1 className="text-xl font-bold text-blue-600">Altrii Recovery</h1>
+                                    <div className="hidden sm:flex sm:space-x-8">
+                                        <button
+                                            onClick={() => setCurrentView('overview')}
+                                            className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
+                                                currentView === 'overview' 
+                                                    ? 'text-blue-600 border-b-2 border-blue-600' 
+                                                    : 'text-gray-500 hover:text-gray-700'
+                                            }`}
+                                        >
+                                            Overview
+                                        </button>
+                                        <button
+                                            onClick={() => setCurrentView('devices')}
+                                            className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
+                                                currentView === 'devices' 
+                                                    ? 'text-blue-600 border-b-2 border-blue-600' 
+                                                    : 'text-gray-500 hover:text-gray-700'
+                                            }`}
+                                        >
+                                            Devices
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className="flex items-center space-x-4">
                                     <span className="text-sm text-gray-700">{user?.email}</span>
@@ -381,34 +739,38 @@
                     </nav>
 
                     <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                        <div className="px-4 py-6">
-                            <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-                                Welcome, {user?.first_name}!
-                            </h1>
-                            
-                            {!user?.email_verified && (
-                                <div className="mb-6 rounded-md bg-amber-50 p-4">
-                                    <h3 className="text-sm font-medium text-amber-800">Email Verification Required</h3>
-                                    <p className="mt-2 text-sm text-amber-700">
-                                        Please check your email and verify your account.
-                                    </p>
-                                </div>
-                            )}
-
-                            <div className="bg-white shadow rounded-lg p-6">
-                                <div className="text-center py-12">
-                                    <div className="mx-auto h-12 w-12 text-gray-400">
-                                        <Icons.Shield />
+                        {currentView === 'overview' ? (
+                            <div className="px-4 py-6">
+                                <h1 className="text-2xl font-semibold text-gray-900 mb-6">
+                                    Welcome, {user?.first_name}!
+                                </h1>
+                                
+                                {!user?.email_verified && (
+                                    <div className="mb-6 rounded-md bg-amber-50 p-4">
+                                        <h3 className="text-sm font-medium text-amber-800">Email Verification Required</h3>
+                                        <p className="mt-2 text-sm text-amber-700">
+                                            Please check your email and verify your account.
+                                        </p>
                                     </div>
-                                    <h3 className="mt-2 text-sm font-medium text-gray-900">
-                                        Your Dashboard
-                                    </h3>
-                                    <p className="mt-1 text-sm text-gray-500">
-                                        Device management features coming soon!
-                                    </p>
+                                )}
+
+                                <div className="bg-white shadow rounded-lg p-6">
+                                    <div className="text-center py-12">
+                                        <div className="mx-auto h-12 w-12 text-gray-400">
+                                            <Icons.Shield />
+                                        </div>
+                                        <h3 className="mt-2 text-sm font-medium text-gray-900">
+                                            Getting Started
+                                        </h3>
+                                        <p className="mt-1 text-sm text-gray-500">
+                                            Click on "Devices" above to start protecting your devices.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        ) : (
+                            <DeviceManagement />
+                        )}
                     </main>
                 </div>
             );
